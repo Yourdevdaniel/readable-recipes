@@ -1,0 +1,11 @@
+{
+  "name": "readable-recipes",
+  "version": "0.1.0",
+  "private": true,
+  "description": "An accessible recipe page with a serving-size scaler. No framework, no build step.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/",
+    "start": "python -m http.server 8000"
+  }
+}
