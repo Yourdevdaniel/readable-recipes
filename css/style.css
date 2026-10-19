@@ -1,0 +1,234 @@
+/* Readable Recipes
+   Colours live in custom properties so the dark theme and the print
+   stylesheet only have to swap values, not rewrite rules. */
+
+:root {
+  --bg: #fdfaf5;
+  --surface: #ffffff;
+  --text: #23201c;
+  --muted: #6b6258;
+  --accent: #b3462c;
+  --line: #e6ddd0;
+  --focus: #1f5fbf;
+
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --radius: 10px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+h1,
+h2 {
+  font-family: var(--serif);
+  line-height: 1.15;
+  margin: 0 0 0.5em;
+}
+
+h1 {
+  font-size: clamp(2.25rem, 6vw, 3.5rem);
+}
+
+h2 {
+  font-size: 1.6rem;
+}
+
+/* One focus style for everything, and only for keyboard focus. */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  padding: 0.5rem 1rem;
+  background: var(--text);
+  color: var(--bg);
+  border-radius: var(--radius);
+  z-index: 10;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+.site-header,
+.site-footer,
+main {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.site-header {
+  padding-top: 1.25rem;
+}
+
+.site-name {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+
+.recipe-header {
+  padding: 2rem 0 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.lede {
+  max-width: 38rem;
+  margin: 0 0 1.5rem;
+  color: var(--muted);
+  font-size: 1.25rem;
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 2.5rem;
+  margin: 0;
+}
+
+.facts dt {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.facts dd {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+/* Two columns once there's room: ingredients next to the method, so
+   you can see both without scrolling back and forth while cooking. */
+.recipe {
+  display: grid;
+  gap: 2rem 3rem;
+}
+
+@media (min-width: 52rem) {
+  .recipe {
+    grid-template-columns: minmax(16rem, 1fr) 2fr;
+    grid-template-areas:
+      "header header"
+      "ingredients method"
+      "ingredients notes";
+    /* extra height from the tall ingredients card goes to the last row,
+       so the notes sit right under the method instead of floating */
+    grid-template-rows: auto auto 1fr;
+    align-items: start;
+  }
+
+  .recipe-header { grid-area: header; }
+  .ingredients { grid-area: ingredients; position: sticky; top: 1rem; }
+  .method { grid-area: method; }
+  .notes { grid-area: notes; }
+}
+
+.ingredients {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+}
+
+.ingredients ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ingredients li {
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.ingredients li:last-child {
+  border-bottom: 0;
+}
+
+.ingredients data {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.method ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.method li {
+  counter-increment: step;
+  position: relative;
+  padding: 0 0 1.25rem 3rem;
+  max-width: 40rem;
+}
+
+.method li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0.1rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  display: grid;
+  place-items: center;
+}
+
+.method time {
+  font-weight: 600;
+}
+
+.notes {
+  border-left: 4px solid var(--accent);
+  padding: 0.25rem 0 0.25rem 1.25rem;
+}
+
+.notes h2 {
+  font-size: 1.25rem;
+}
+
+.notes p {
+  margin: 0;
+  max-width: 40rem;
+}
+
+.site-footer {
+  margin-top: 4rem;
+  padding-bottom: 2rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.site-footer p {
+  margin: 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
