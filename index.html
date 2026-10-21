@@ -6,6 +6,7 @@
   <title>Red lentil soup · Readable Recipes</title>
   <meta name="description" content="A weeknight red lentil soup, with amounts you can scale to any number of servings.">
   <link rel="stylesheet" href="css/style.css">
+  <script type="module" src="js/scaler.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#ingredients">Skip to ingredients</a>
@@ -15,7 +16,7 @@
   </header>
 
   <main id="main">
-    <article class="recipe" aria-labelledby="recipe-title">
+    <article class="recipe" aria-labelledby="recipe-title" data-servings="4">
       <header class="recipe-header">
         <h1 id="recipe-title">Red lentil soup</h1>
         <p class="lede">
@@ -25,7 +26,7 @@
         <dl class="facts">
           <div>
             <dt>Serves</dt>
-            <dd>4</dd>
+            <dd id="serves-count">4</dd>
           </div>
           <div>
             <dt>Prep</dt>
