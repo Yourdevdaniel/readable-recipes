@@ -3,6 +3,7 @@
    stylesheet only have to swap values, not rewrite rules. */
 
 :root {
+  color-scheme: light dark; /* native controls (the number field) follow the theme too */
   --bg: #fdfaf5;
   --surface: #ffffff;
   --text: #23201c;
@@ -10,10 +11,26 @@
   --accent: #b3462c;
   --line: #e6ddd0;
   --focus: #1f5fbf;
+  --on-accent: #ffffff;
 
   --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --radius: 10px;
+}
+
+/* Dark theme: only the values change. The accent gets lighter so it
+   keeps its contrast, and text on top of it flips to dark. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1c1a17;
+    --surface: #25221e;
+    --text: #efe9e1;
+    --muted: #b3a99c;
+    --accent: #e0785c;
+    --line: #3b3630;
+    --focus: #7fb0ff;
+    --on-accent: #1c1a17;
+  }
 }
 
 *,
@@ -200,7 +217,7 @@ main {
 
 .stepper button:hover {
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
 }
 
 .stepper button:disabled {
@@ -265,7 +282,7 @@ main {
   height: 2rem;
   border-radius: 50%;
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   font-weight: 700;
   font-size: 1rem;
   display: grid;
