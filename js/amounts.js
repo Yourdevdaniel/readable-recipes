@@ -65,8 +65,13 @@ export function formatAmount(value, unit, plural) {
   return word ? `${amount} ${word}` : amount;
 }
 
-/** Servings typed by a person -> a whole number in a sensible range. */
+/** Servings typed by a person -> a whole number in a sensible range,
+ *  or null if there's nothing usable (yet) in the field. */
 export function parseServings(text, min = 1, max = 24) {
+  // Number("") is 0, not NaN, so an empty field has to be caught first
+  if (String(text).trim() === "") {
+    return null;
+  }
   const number = Math.round(Number(text));
   if (!Number.isFinite(number)) {
     return null;

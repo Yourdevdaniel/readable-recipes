@@ -64,3 +64,9 @@ test("servings input is clamped to a whole number in range", () => {
   assert.equal(parseServings("500"), 24);
   assert.equal(parseServings("abc"), null);
 });
+
+test("an empty field is not zero servings", () => {
+  // someone deleting "4" to type "8" passes through an empty field
+  assert.equal(parseServings(""), null);
+  assert.equal(parseServings("   "), null);
+});

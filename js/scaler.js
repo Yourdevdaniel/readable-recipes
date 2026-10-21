@@ -26,15 +26,22 @@ function setUpScaler(recipe) {
   const servesFact = recipe.querySelector("#serves-count");
 
   let announceTimer;
+  let shown = baseServings; // what the amounts are currently scaled for
 
-  function update(servings) {
+  // typing: true while the person is still typing in the field. Then we
+  // update the amounts but leave the field alone - rewriting it under
+  // their cursor is what turned "delete 4, type 8" into "18".
+  function update(servings, { typing = false } = {}) {
+    shown = servings;
     const factor = servings / baseServings;
     for (const amount of amounts) {
       const value = Number(amount.dataset.base) * factor;
       amount.value = String(value);
       amount.textContent = formatAmount(value, amount.dataset.unit, amount.dataset.plural);
     }
-    controls.input.value = servings;
+    if (!typing) {
+      controls.input.value = servings;
+    }
     controls.less.disabled = servings <= MIN;
     controls.more.disabled = servings >= MAX;
     servesFact.textContent = servings;
@@ -48,7 +55,7 @@ function setUpScaler(recipe) {
   }
 
   function current() {
-    return parseServings(controls.input.value, MIN, MAX) ?? baseServings;
+    return parseServings(controls.input.value, MIN, MAX) ?? shown;
   }
 
   controls.less.addEventListener("click", () => update(Math.max(MIN, current() - 1)));
@@ -56,9 +63,12 @@ function setUpScaler(recipe) {
   controls.input.addEventListener("input", () => {
     const servings = parseServings(controls.input.value, MIN, MAX);
     if (servings !== null) {
-      update(servings);
+      update(servings, { typing: true });
     }
   });
+  // Leaving the field (or pressing Enter) is when we tidy it up:
+  // "500" becomes 24, an empty field goes back to the last good value.
+  controls.input.addEventListener("change", () => update(current()));
 }
 
 function buildControls(servings) {
